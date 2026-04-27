@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 #include <string.h> //Added for various string operations and functions
-#include <stdlib.h> //Added for randomizer functions
+#include <stdlib.h> //Added for randomizer functions and system function
 #include <time.h>   //Added for the time() function to seed the randomizer
 
 
