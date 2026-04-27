@@ -1,4 +1,4 @@
-/* Gray Sherwood, Matthew Sauceda, Miles Nakai, Nathan Risenhoover, Simon Padilla 
+/* Gray Sherwood, Matthew Sauceda, Miles Nakai, Nathan Risenhoover, Simon Padilla
  * 4/28/2026
  * Final Project
  * ECE131L - Section003 - Group 5
@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 #include <string.h> //Added for various string operations and functions
-#include <stdlib.h> //Added for randomizer functions
+#include <stdlib.h> //Added for randomizer functions and system function
 #include <time.h>   //Added for the time() function to seed the randomizer
 
 
@@ -19,6 +19,7 @@
 struct MyGame {
 	char secretWord[6];
 	int turnsTaken;
+	int letterStatus[26]; //0 = not guessed, 1 = correct, 2 = guessed but not correct
 };
 
 
@@ -39,12 +40,13 @@ void saveScore(char *word, int tries, int win);
 void showPastGames();
 void addNewWord();
 void deleteHistory();
+void printAlphabet(struct MyGame *game);
 
 
 //Main Function
 int main() {
-    system("clear"); //Clears anything in the terminal from before
-
+	system("clear"); //Clears the screen
+	
 	srand(time(NULL)); //Use the current time of day to make sure the random word is always different
 	int menuChoice = 0;
 
@@ -56,29 +58,27 @@ int main() {
 
 		if(menuChoice == 1) {
 			struct MyGame activeGame;
-            system("clear");
 			activeGame.turnsTaken = 0;
+			for(int i = 0; i < 26; i++) {
+				activeGame.letterStatus[i] = 0; //Sets all letters to unguessed
+			}
 			getSecretWord(activeGame.secretWord);
 			
 			play(&activeGame); 
 		} 
 		else if(menuChoice == 2) {
-            system("clear");
 			printRules();
 		} 
 		else if(menuChoice == 3) {
-            system("clear");
 			showPastGames();
 		} 
 		else if(menuChoice == 4) {
-            system("clear");
 			addNewWord();
 		} 
 		else if(menuChoice == 5) {
-            system("clear");
 			deleteHistory();
 		} 
-		else if(menuChoice < 1 || menuChoice > 6){
+		else if(menuChoice != (1, 2, 3, 4, 5, 6)) {
 			printf("Error: Not a menu option.\n");
 		}
 	}
@@ -135,46 +135,38 @@ void play(struct MyGame *game) {
 		int correctInRow = 0;
 		printf("Result: ");
 
-        //Tracks result for each grid position (0 = wrong, 1 = almost, 2 = correct)
-        int result[5] = {0, 0, 0, 0, 0};
-
-        //Loop that counts how many times a letter is in the word
-        int letterCount[26] = {0};
-        for(int i = 0; i < 5; i++) {
-            letterCount[(*game).secretWord[i] - 'A']++;
-        }
-		
-		//This loop checks if each letter is correct going one at a time and takes away from available letter counts
+		//This 'for' loop checks each letter one at a time
 		for(int i = 0; i < 5; i++) {
-			if(guess[i] == (*game).secretWord[i]) {
-                result[i] = 2;
-				correctInRow++;
-                letterCount[guess[i] - 'A']--;
-			}
-        }
-        
-        //This checks if the letter is anywhere else in the word
-        for(int i = 0; i < 5; i++) {
-            if(result[i] == 2) {
-                continue;
-            }
-            if(letterCount[guess[i]- 'A'] > 0) {
-                result[i] = 1;
-                letterCount[guess[i] - 'A']--;
-            }
-        }
+			int letterIndex = guess[i] - 'A';
 
-        // Print loop
-        for(int i = 0; i < 5; i++) {
-			if(result[i] == 2) {
-                printf("\033[1;32m[CORRECT]\033[0m");
-			} else if(result[i] == 1) {
-				printf("\033[1;33m[ALMOST]\033[0m ");
-			} else {
-				printf("\033[1;31m[WRONG]\033[0m ");
+			if(guess[i] == (*game).secretWord[i]) {
+				printf("\033[1;32m[CORRECT]\033[0m ");
+				correctInRow = correctInRow + 1;
+				(*game).letterStatus[letterIndex] = 1; //Mark as correct for alphabet function
+			} 
+			else {
+				//This checks if the letter is anywhere else in the word in a nested loop
+				int exists = 0;
+				for(int j = 0; j < 5; j++) {
+					if((*game).secretWord[j] == guess[i]) {
+						exists = 1;
+					}
+				}
+				
+				//If it exists print [ALMOST] otherwise [WRONG]
+				if(exists == 1) {
+					printf("\033[1;33m[ALMOST]\033[0m ");
+				} 
+				else {
+					printf("\033[1;31m[WRONG]\033[0m ");
+				}
+				if((*game).letterStatus[letterIndex] != 1) { //Only update the status if its not correct
+					(*game).letterStatus[letterIndex] = 2;
+				}
 			}
-		
 		}
+		printf("\n");
+		printAlphabet(game); //Displays a filtered view of the alphabet
 		printf("\n");
 
 		(*game).turnsTaken = (*game).turnsTaken + 1;
@@ -315,35 +307,6 @@ void addNewWord() {
 		return;
 	}
 
-    //Converts the new word to uppercase for a comparison check in the library
-    for(int i = 0; i < 5; i++) {
-        if(newWord[i] >= 'a' && newWord[i] <= 'z') {
-            newWord[i] = newWord[i] - 32;
-        }
-    }
-    
-    //Checks for any duplicate words inside the file
-    FILE *checkPtr = fopen("words.txt", "r");
-    if(checkPtr != NULL) {
-        char existing[10];
-        //Scans file for any words matching the user entered word
-        while(fscanf(checkPtr, "%s", existing) != -1) {
-            //Converts existing to uppercase as well just incase
-            for(int i = 0; i < 5; i++) {
-                if(existing[i] >= 'a' && existing[i] <= 'z') {
-                    existing[i] = existing[i] - 32;
-                }
-            }
-            //If the word exists already
-            if(strcmp(existing, newWord) == 0) {
-                printf("That word is already in the list!\n");
-                fclose(checkPtr);
-                return;
-            }
-        }
-        fclose(checkPtr);
-    }
-
 	FILE *filePtr = fopen("words.txt", "a"); //Uses append to add word to end of list instead of replacing words
 	if(filePtr != NULL) {
 		fprintf(filePtr, "\n%s", newWord);
@@ -382,4 +345,21 @@ void printRules() {
 	printf("\033[1;31m[WRONG]\033[0m = Letter is not in the word.\n");
 	printf("If you guess the word in six tries or less, you win the game! If you don't, you lose.\n");
 	printf("To play, enter 1 in the menu.\n");
+}
+
+
+//Function to print out available letters
+void printAlphabet(struct MyGame *game) {
+	printf("\nLetters Remaining/Correct: ");
+	for(int i = 0; i < 26; i++) {
+		if((*game).letterStatus[i] == 0) {
+			printf("%c ", ('A' + i));  //Prints normally if unguessed
+		}
+		else if((*game).letterStatus[i] == 1) {
+			printf("\033[1;32m%c\033[0m ",('A' + i)); //Prints in green if guessed and in word
+		}
+		else {
+			printf("_ "); //Prints empty space if guessed and not in word
+		}
+	}
 }
