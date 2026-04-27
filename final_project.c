@@ -43,6 +43,8 @@ void deleteHistory();
 
 //Main Function
 int main() {
+	system("clear"); //Clears the screen
+	
 	srand(time(NULL)); //Use the current time of day to make sure the random word is always different
 	int menuChoice = 0;
 
@@ -314,9 +316,6 @@ void deleteHistory() {
 
 //Function to print to main menu
 void printMenu() {
-	for(int i = 0; i < 1; i++) {
-		system("clear"); //Clears the screen on only the initial menu run using system command
-	}
 	printf("\n--- WORDLE MAIN MENU ---\n");
 	printf("\n1. Play\n2. How to play\n3. History\n4. Add Word\n5. Reset History\n6. Exit\n");
 }
