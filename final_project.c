@@ -1,7 +1,7 @@
 /* Gray Sherwood, Matthew Sauceda, Miles Nakai, Nathan Risenhoover, Simon Padilla 
  * 4/28/2026
  * Final Project
- * ECE131L - Section003 - Group 5
+ * ECE131L - Section003 - Group 6
  * Wordle Game in C
  * Credit to "tabatkins" on Github for providing the source word list from Wordle, modified to contain more commonly known words
 
