@@ -35,13 +35,19 @@ INSTALLATION & EXECUTION:
 
 ECE131LFinalProject/
 
-├── src/               # Source code and word file
+├── src/                        # Source code and word file
 
-├── README.md          # This file
+├── README.md                   # This file
 
-├── README.txt         # Readme for systems that dont support .md
+├── README.txt                  # Readme for systems that dont support .md
 
-└── ...                # Other files
+├── ProjectReport.pdf           # Report on lessons learned during project
+
+├── TestPlan.pdf                # List of edge cases to check for bugfixing
+
+├── WordlePresentation.pptx     # Powerpoint presentation on project
+
+└── ...                         # Other files
 
 MENU OPTIONS:
 1. Play: Starts a new game with a random word.
