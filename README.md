@@ -34,9 +34,13 @@ INSTALLATION & EXECUTION:
    -> ./WordleGame
 
 ECE131LFinalProject/
+
 ├── src/               # Source code and word file
+
 ├── README.md          # This file
+
 ├── README.txt         # Readme for systems that dont support .md
+
 └── ...                # Other files
 
 MENU OPTIONS:
