@@ -37,11 +37,11 @@ ECE131LFinalProject/
 
 ├── src/                        # Source code and word file
 
+├── ProjectReport.pdf           # Report on lessons learned during project
+
 ├── README.md                   # This file
 
 ├── README.txt                  # Readme for systems that dont support .md
-
-├── ProjectReport.pdf           # Report on lessons learned during project
 
 ├── TestPlan.pdf                # List of edge cases to check for bugfixing
 
