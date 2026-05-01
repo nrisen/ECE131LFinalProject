@@ -1,5 +1,5 @@
 # ECE131LFinalProject
-WORDLE in C (Group 005 Final Project)
+WORDLE in C (Group 006 Final Project)
 VERSION: 1.0.0
 DUE DATE: April 28, 2026
 AUTHORS: Gray Sherwood, Matthew Sauceda, Miles Nakai, Nathan Risenhoover, Simon Padilla
@@ -18,7 +18,7 @@ The game features color coded feedback:
 
 SYSTEM REQUIREMENTS:
 - A C compiler
-- A terminal that supports ANSI color codes (most modern terminals)
+- A terminal that supports ANSI color codes for color feedback (most modern terminals)
 - Operating System: Windows (Cygwin), Linux, or macOS
 
 FILES INCLUDED:
@@ -32,6 +32,12 @@ INSTALLATION & EXECUTION:
    -> gcc final_project.c -o WordleGame
 3. Run the program:
    -> ./WordleGame
+
+ECE131LFinalProject/
+├── src/               # Source code and word file
+├── README.md          # This file
+├── README.txt         # Readme for systems that dont support .md
+└── ...                # Other files
 
 MENU OPTIONS:
 1. Play: Starts a new game with a random word.
