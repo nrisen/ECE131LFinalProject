@@ -14,6 +14,7 @@ The game features color coded feedback:
 - GREEN if Letter is correct and in the right spot.
 - YELLOW if Letter is in the word but in the wrong spot.
 - RED if Letter is not in the word.
+- (Possibly making letters change colors instead in future build)
 
 SYSTEM REQUIREMENTS:
 - A C compiler
