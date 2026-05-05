@@ -24,7 +24,7 @@ SYSTEM REQUIREMENTS:
 FILES INCLUDED:
 - final_project.c : The main source code.
 - words.txt       : The dictionary of 5-letter words.
-- readme.txt      : Description of project and installation instructions
+- readme.txt      : Description of project and installation instructions.
 
 INSTALLATION & EXECUTION:
 1. Ensure 'words.txt' is in the same folder as the program.
